@@ -1,3 +1,6 @@
+/*
+
+*/
 private["_characterID","_minutes","_newObject","_playerID","_playerName","_playerID","_myGroup","_group"];
 //[unit, weapon, muzzle, mode, ammo, magazine, projectile]
 _characterID = 	_this select 0;
@@ -18,19 +21,21 @@ diag_log ("DW_DEBUG: _newObject: " + str(_newObject));
 
 if !(isnil "_characterID") then {
 	
-if (_characterID != "0") then {
-	_key = format["CHILD:202:%1:%2:",_characterID,_minutes];
-	//diag_log ("HIVE: WRITE: "+ str(_key));
-	_key call server_hiveWrite;
+	if (_characterID != "0") then {
+		_key = format["CHILD:202:%1:%2:",_characterID,_minutes];
+		//diag_log ("HIVE: WRITE: "+ str(_key));
+		_key call server_hiveWrite;
+	} else {
+		diag_log format["DEBUG: server_playerDied: DELETE1"];
+		deleteVehicle _newObject;
+	};
 } else {
+	diag_log format["DEBUG: server_playerDied: DELETE2"];
 	deleteVehicle _newObject;
 };
 
-} else {
-	deleteVehicle _newObject;
-};
+diag_log format["DEBUG: server_playerDied: %1 Died (%2)",_playerName,_playerID];
 
-diag_log ("PDEATH: Player Died " + _playerID);
 /*
 _eh = [_newObject] spawn {
 	_body = _this select 0;
