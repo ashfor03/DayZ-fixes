@@ -1,4 +1,4 @@
-private["_objectID","_object","_updates","_uGear","_key","_result","_position","_speed","_crew","_canDo","_uid","_type","_previous"];
+private["_objectID","_object","_updates","_uGear","_key","_result","_position","_speed","_crew","_canDo","_uid","_type","_previous","_damage"];
 _object = 	_this select 0;
 _objectID =	_object getVariable ["ObjectID","0"];
 _uid = 		_object call dayz_objectUID;
@@ -10,7 +10,7 @@ _canDo = false;
 _key = "";
 _lastUpdate = _object getVariable ["lastUpdate",time];
 
-diag_log ("HIVE: UPDATING OBJ: "+ str(_this) + " / UID: " + str(_uid));
+// diag_log ("HIVE: UPDATING OBJ: "+ str(_this) + " / UID: " + str(_uid));
 
 _object setVariable ["lastUpdate",time];
 switch (_type) do {
@@ -21,7 +21,7 @@ switch (_type) do {
 			_position
 		];
 		_fuel = 0;
-		if (_object isKindOf "Vehicle") then {
+		if (_object isKindOf "AllVehicle") then {
 			_fuel = fuel _object;
 		};
 		_key = format["CHILD:305:%1:%2:%3:",_objectID,_worldspace,_fuel];
@@ -62,7 +62,7 @@ switch (_type) do {
 			_position
 		];
 		_fuel = 0;
-		if (_object isKindOf "Vehicle") then {
+		if (_object isKindOf "AllVehicle") then {
 			_fuel = fuel _object;
 		};
 		_key = format["CHILD:305:%1:%2:%3:",_objectID,_worldspace,_fuel];
@@ -88,7 +88,7 @@ switch (_type) do {
 		};
 	};
 	case "damage": {
-		if ((time - _lastUpdate) > 5) then {
+//		if ((time - _lastUpdate) > 5) then {
 			_hitpoints = _object call vehicle_getHitpoints;
 			_array = [];
 			_dam = 1;
@@ -100,7 +100,7 @@ switch (_type) do {
 			_key = format["CHILD:306:%1:%2:%3:",_objectID,_array,_damage];
 			diag_log ("HIVE: WRITE: "+ str(_key));
 			_key call server_hiveWrite;
-		};
+//		};
 	};
 	case "repair": {
 		_hitpoints = _object call vehicle_getHitpoints;
