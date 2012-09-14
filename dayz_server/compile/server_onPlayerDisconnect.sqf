@@ -1,3 +1,7 @@
+/*
+
+
+*/
 private["_hasDel","_serial","_object","_updates","_myGroup","_nearVeh"];
 _playerID = _this select 0;
 _playerName = _this select 1;
@@ -8,7 +12,22 @@ if (vehicle _object != _object) then {
 	_object action ["eject", vehicle _object];
 };
 
-diag_log ("DISCONNECT START (i): " + _playerName + " (" + str(_playerID) + ") Object: " + str(_object) );
+private ["_isInjured","_isCardiac","_unconscious"];
+_isInjured 	= _object getVariable["USEC_injured",false];
+_isCardiac 	= _object getVariable["USEC_isCardiac",false];
+_unconscious 	= _object getVariable["NORRN_unconscious",false];
+
+diag_log format["DISCONNECT: %1 (%2) Object: %3, _characterID: %4", _playerName,_playerID,_object,_characterID];
+
+/* if you want to kill injured player - remove this comment
+diag_log format["DISCONNECT: _isInjured=%1,_isCardiac=%2,_unconscious=%3",_isInjured,_isCardiac,_unconscious];
+
+if ( _isInjured or _isCardiac or _unconscious ) then {
+	_object setDamage 1;
+	dayzDeath = [_characterID,0,_object,_playerID,_playerName];
+	_id = dayzDeath call server_playerDied;
+};
+if you want to kill injured player - remove this comment */ 
 
 [_object,[],true] call server_playerSync;
 
