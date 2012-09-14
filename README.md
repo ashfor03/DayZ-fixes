@@ -2,6 +2,7 @@ fixes for DayZ
 ==============
 
 currently it work without modification with Pwnoz0r (https://github.com/Pwnoz0r/DayZ-Private-Server) and antirocket projects.
+
 1. no infinite food items (https://dev-heaven.net/issues/39368,https://dev-heaven.net/issues/39058)
 2. no infinite drink items (https://dev-heaven.net/issues/39368,https://dev-heaven.net/issues/39058 same as 1)
 3. no infinite build items (https://dev-heaven.net/issues/39368,https://dev-heaven.net/issues/39058 same as 1)
