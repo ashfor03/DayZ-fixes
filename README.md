@@ -22,8 +22,7 @@ currently it work without modification with Pwnoz0r (https://github.com/Pwnoz0r/
 17. corrected dayz_objectUID and dayz_objectUID2 (rounding issue)
 
 also added:
-autosave when gear
-autosave when getout from vehicle
-temerature color correction by Antithasys
+
+autosave when gear, autosave when getout from vehicle
 
 visit forum: http://www.tunngle.net/community/topic/92761-fix-all-in-one-fixes-for-dayz-1726/
