@@ -26,11 +26,9 @@ if !(isnil "_characterID") then {
 		//diag_log ("HIVE: WRITE: "+ str(_key));
 		_key call server_hiveWrite;
 	} else {
-		diag_log format["DEBUG: server_playerDied: DELETE1"];
 		deleteVehicle _newObject;
 	};
 } else {
-	diag_log format["DEBUG: server_playerDied: DELETE2"];
 	deleteVehicle _newObject;
 };
 
