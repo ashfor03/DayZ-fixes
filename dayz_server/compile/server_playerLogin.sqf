@@ -39,8 +39,8 @@ if ((_playerID == "") or (isNil "_playerID")) exitWith {
 	diag_log ("LOGIN FAILED: Player [" + _playerName + "] has no login ID");
 };
 
-endLoadingScreen;
 while {_playerID in botPlayers} do { sleep 5 };
+endLoadingScreen;
 
 diag_log ("LOGIN ATTEMPT: " + str(_playerID) + " " + _playerName);
 
