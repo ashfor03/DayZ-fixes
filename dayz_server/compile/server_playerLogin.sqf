@@ -40,6 +40,8 @@ if ((_playerID == "") or (isNil "_playerID")) exitWith {
 };
 
 endLoadingScreen;
+while {_playerID in botPlayers} do { sleep 5 };
+
 diag_log ("LOGIN ATTEMPT: " + str(_playerID) + " " + _playerName);
 
 //Do Connection Attempt
@@ -58,7 +60,6 @@ while {_doLoop < 5} do {
 if (isNull _playerObj or !isPlayer _playerObj) exitWith {
 	diag_log ("LOGIN RESULT: Exiting, player object null: " + str(_playerObj));
 };
-
 //Process request
 _newPlayer = 	_primary select 1;
 _isNew = 		count _primary < 6; //_result select 1;
