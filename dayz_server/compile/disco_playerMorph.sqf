@@ -167,6 +167,7 @@ _newUnit setVariable["bodyName",_playerName,true];
 
 //Move to position
 	_newUnit allowDamage true;
+	_newUnit switchMove _currentAnim;
 	_newUnit setPosATL _position;
 	_newUnit setDir _dir;
 	_newUnit disableConversation true;
@@ -191,14 +192,6 @@ _newUnit removeAllEventHandlers "handleDamage";
 if (alive _newUnit) then {
 	private["_playerBackp"];
 	_playerBackp = [_newBackpackType,getWeaponCargo _newBackpack,getMagazineCargo _newBackpack];
-
-	if (_newUnit getVariable["USEC_injured",false]) then {
-		{
-			if (_newUnit getVariable[_x,false]) then {
-			_wounds set [count _wounds,_x];
-			};
-		} forEach USEC_typeOfWounds;
-	};
 	_medical = _newUnit call player_sumMedical;
 	_currentState = [_currentWpn,_currentAnim,_temp];
 //Wait for HIVE to be free
