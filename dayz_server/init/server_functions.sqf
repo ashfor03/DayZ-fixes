@@ -18,6 +18,12 @@ server_playerSync =			compile preprocessFileLineNumbers "\z\addons\dayz_server\c
 //zombie_initialize =			compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\zombie_initialize.sqf";
 zombie_findOwner =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\zombie_findOwner.sqf";
 
+//disconnect func
+disco_playerMorph = 		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_playerMorph.sqf";
+disco_damageHandler =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_damageHandler.sqf";
+
+botPlayers = [];
+
 //event Handlers
 eh_localCleanup =			{
 	_object = _this select 0;
