@@ -79,16 +79,23 @@ while {_doLoop < 5} do {
 	};
 	_doLoop = _doLoop + 1;
 };
-_magazines1 = (_primary select 4) select 1;
-//BackUp Player Object
+private ["_group","_newUnit"];
+// get from DB for ammo count
+_magazines = (_primary select 4) select 1;
+
 //	deleteVehicle _object;	
 //Create New Character
-	_group 		= createGroup civilian;
-	_newUnit 	= _group createUnit [_model,dayz_spawnPos,[],0,"NONE"];
+	_group 		= createGroup west;
+	_newUnit 	= _group createUnit [_model,[0,0,0],[],0,"NONE"];
+// magic!
+	[_newUnit] joinSilent grpNull;
+	sleep 0.2;
+	[_newUnit] joinSilent _group;
 	_group reveal _newUnit;
 //Clear New Character
 	{_newUnit removeMagazine _x;} forEach (magazines _newUnit);
 	removeAllWeapons _newUnit;
+
 //Equip New Charactar
 { _newUnit addMagazine _x } forEach _magazines;
 { _newUnit addWeapon _x } forEach _weapons;
@@ -161,9 +168,7 @@ if (count _medical > 0) then {
 _newUnit setVariable["characterID",str(_characterID),true];
 _newUnit setVariable["worldspace",_worldspace,true];
 _newUnit setVariable["bodyName",_playerName,true];
-
-//call compile format["player%1 = _newUnit", _playerID];
-//mydamage_eh3 = _newUnit addEventHandler ["Killed", {[_characterID,0,_newUnit,_playerID,_playerName];}];
+_newUnit setVariable["playerID",_playerID,true];
 
 //Move to position
 	_newUnit allowDamage true;
@@ -173,7 +178,7 @@ _newUnit setVariable["bodyName",_playerName,true];
 	_newUnit disableConversation true;
 	_newUnit playActionNow "Die";
 	_newUnit setCaptive false;
-	_newUnit disableAi "ANIM";
+//	_newUnit disableAi "ANIM";
 //	addSwitchableUnit _newUnit;
 //	setPlayable _newUnit;
 
@@ -183,7 +188,9 @@ _newUnit setVariable["bodyName",_playerName,true];
 // deleteVehicle _oldUnit;
 botPlayers = botPlayers + [_playerID];
 _mydamage_eh1 = _newUnit addeventhandler ["HandleDamage",{ _this call disco_damageHandler }];
-diag_log format["botPlayers: %1", botPlayers];
+//mydamage_eh3 = _newUnit addEventHandler ["Killed", {[_characterID,0,_newUnit,_playerID,_playerName];}];
+//call compile format["player%1 = _newUnit", _playerID];
+//diag_log format["botPlayers: %1", botPlayers];
 
 sleep 45;
 //[_newUnit,[],true] call server_playerSync;
