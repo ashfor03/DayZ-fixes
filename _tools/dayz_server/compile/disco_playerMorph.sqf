@@ -80,18 +80,14 @@ while {_doLoop < 5} do {
 	_doLoop = _doLoop + 1;
 };
 private ["_group","_newUnit"];
-// get from DB for ammo count
+// get from DB ammo count
 _magazines = (_primary select 4) select 1;
 
-//	deleteVehicle _object;	
 //Create New Character
-	_group 		= createGroup west;
+	_group 		= createGroup civilian;
 	_newUnit 	= _group createUnit [_model,[0,0,0],[],0,"NONE"];
-// magic!
-	[_newUnit] joinSilent grpNull;
-	sleep 0.2;
-	[_newUnit] joinSilent _group;
-	_group reveal _newUnit;
+	sleep 0.1;
+	
 //Clear New Character
 	{_newUnit removeMagazine _x;} forEach (magazines _newUnit);
 	removeAllWeapons _newUnit;
@@ -172,52 +168,31 @@ _newUnit setVariable["playerID",_playerID,true];
 
 //Move to position
 	_newUnit allowDamage true;
-	_newUnit switchMove _currentAnim;
-	_newUnit setPosATL _position;
+	deleteVehicle _object;
+	deleteGroup (group _object);
 	_newUnit setDir _dir;
-	_newUnit disableConversation true;
+	_newUnit setPosATL _position;
 	_newUnit playActionNow "Die";
+	_newUnit disableConversation true;
 	_newUnit setCaptive false;
 //	_newUnit disableAi "ANIM";
-//	addSwitchableUnit _newUnit;
-//	setPlayable _newUnit;
 
 // для чего это делается?
 	_newUnit addWeapon "Loot";
 	_newUnit addWeapon "Flare";
-// deleteVehicle _oldUnit;
 botPlayers = botPlayers + [_playerID];
-_mydamage_eh1 = _newUnit addeventhandler ["HandleDamage",{ _this call disco_damageHandler }];
-//mydamage_eh3 = _newUnit addEventHandler ["Killed", {[_characterID,0,_newUnit,_playerID,_playerName];}];
-//call compile format["player%1 = _newUnit", _playerID];
-//diag_log format["botPlayers: %1", botPlayers];
+_mydamage_eh1 = _newUnit addeventhandler ["HandleDamage",{ _this call disco_damageHandler;0 }];
+diag_log format["botPlayers: %1", botPlayers];
 
 sleep 45;
-//[_newUnit,[],true] call server_playerSync;
 _newUnit removeAllEventHandlers "handleDamage";
 
-if (alive _newUnit) then {
-	private["_playerBackp"];
-	_playerBackp = [_newBackpackType,getWeaponCargo _newBackpack,getMagazineCargo _newBackpack];
-	_medical = _newUnit call player_sumMedical;
-	_currentState = [_currentWpn,_currentAnim,_temp];
-//Wait for HIVE to be free
-//Send request
-	_key 	= format["CHILD:201:%1:%2:%3:%4:%5:%6:%7:%8:%9:%10:%11:%12:%13:%14:%15:%16:",
-			_characterID,
-			_worldspace,
-			[],
-			_playerBackp,
-			_medical,
-			false,
-			false,
-			0,0,0,0,
-			[],
-			0,0,
-			_model,
-			0];
-	diag_log format["DISCONNECT: %1 %2",_playerName,_key];
-	_key call server_hiveWrite;
+private ["_isDead"];
+_isDead = _newUnit getVariable["dead",false];
+diag_log format["DEBUG: Player %1 is alive? %2:%3", _playerName,!_isDead, alive _newUnit];
+if (!_isDead) then {
+	[_newUnit,_magazines,true] call server_playerSync;
+	_id = [_playerID,_characterID,2] spawn dayz_recordLogin;
 	_group = group _newUnit;
 	deleteVehicle _newUnit;
 	deleteGroup _group;
