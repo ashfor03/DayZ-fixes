@@ -98,13 +98,7 @@ if (_damage > 0.4) then {	//0.25
 			_unit setVariable["USEC_inPain",true,true];
 	};
 	if ((_damage > 1.5) and _isHeadHit) then {
-		_unit setDamage 1;
-		dayzFlies = _unit;
-		publicVariable "dayzFlies";
-		_unit setVariable ["deathType","shothead",true];
-		_key = format["CHILD:202:%1:%2:",_characterID,0];
-		diag_log ("HIVE: WRITE: "+ str(_key));
-		_key call server_hiveWrite;
+		[_unit,_source,"shothead"] spawn disco_playerDeath;
 	};
 };
 if(!_isHit) then {
@@ -133,13 +127,7 @@ if (_type == 1) then {
 	*/		
 	if (_damage > 4) then {
 		//serious ballistic damage
-		_unit setDamage 1;
-		dayzFlies = _unit;
-		publicVariable "dayzFlies";
-		_unit setVariable ["deathType","explosion",true];
-		_key = format["CHILD:202:%1:%2:",_characterID,0];
-		diag_log ("HIVE: death WRITE: "+ str(_key));
-		_key call server_hiveWrite;
+		[_unit,_source,"explosion"] spawn disco_playerDeath;
 	} else {
 		if (_damage > 2) then {
 			_isCardiac = _unit getVariable["USEC_isCardiac",false];
@@ -155,13 +143,7 @@ if (_type == 2) then {
 	*/
 	if (_damage > 4) then {
 		//serious ballistic damage
-		_unit setDamage 1;
-		dayzFlies = _unit;
-		publicVariable "dayzFlies";
-		_unit setVariable ["deathType","shotheavy",true];
-		_key = format["CHILD:202:%1:%2:",_characterID,0];
-		diag_log ("HIVE: death WRITE: "+ str(_key));
-		_key call server_hiveWrite;
+		[_unit,_source,"shotheavy"] spawn disco_playerDeath;
 	} else {
 		if (_damage > 2) then {
 			_isCardiac = _unit getVariable["USEC_isCardiac",false];
@@ -173,14 +155,7 @@ if (_type == 2) then {
 };
 
 if (_player_blood <= 0) then {
-	_unit setDamage 1;
-	dayzFlies = _unit;
-	publicVariable "dayzFlies";
-	_unit setVariable ["deathType","bled",true];
-	_key = format["CHILD:202:%1:%2:",_characterID,0];
-	diag_log ("HIVE: death WRITE: "+ str(_key));
-	_key call server_hiveWrite;
+	[_unit,_source,"bled"] spawn disco_playerDeath;
 };
-diag_log format["DEBUG: disco_damageHandler: _player_blood=%1",_player_blood];
 _unit setVariable["USEC_BloodQty",_player_blood,true];
-_damage
+// _damage
