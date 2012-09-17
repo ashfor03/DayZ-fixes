@@ -20,8 +20,7 @@ _isPlayer = (isPlayer _source);
 _humanityHit = 0;
 _myKills = 0;
 _characterID = _unit getVariable ["CharacterID","0"];
-
-_player_blood = _unit getVariable["USEC_BloodQty",1200];
+_player_blood = _unit getVariable["USEC_BloodQty",12000];
 
 if (_characterID == "0") exitWith
 {
@@ -83,7 +82,6 @@ if (_damage > 0.4) then {	//0.25
 		_hitPain = true;
 	};
 	_hitInfection = (_rndInfection < 1);
-	//player sidechat format["HitPain: %1, HitInfection %2 (Damage: %3)",_rndPain,_rndInfection,_damage]; //r_player_infected
 	if (_isHit) then {
 		//Make hit worse
 		_player_blood = _player_blood - 50;
@@ -95,7 +93,7 @@ if (_damage > 0.4) then {	//0.25
 	};
 	if (_hitPain) then {
 		//Set Pain if not already
-			_unit setVariable["USEC_inPain",true,true];
+ 			_unit setVariable["USEC_inPain",true,true];
 	};
 	if ((_damage > 1.5) and _isHeadHit) then {
 		[_unit,_source,"shothead"] spawn disco_playerDeath;
@@ -104,11 +102,12 @@ if (_damage > 0.4) then {	//0.25
 if(!_isHit) then {
 	//Create Wound
 	_unit setVariable[_wound,true,true];
-//		[_unit,_wound,_hit] spawn fnc_usec_damageBleed;
+	[_unit,_wound,_hit] spawn fnc_usec_damageBleed;
 	usecBleed = [_unit,_wound,_hit];
 	publicVariable "usecBleed";
 
 	//Set Injured if not already
+	_isInjured = _unit getVariable["USEC_injured",false];
 	if (!_isInjured) then {
 		_unit setVariable["USEC_injured",true,true];
 		if (_ammo != "zombie") then {
@@ -154,8 +153,9 @@ if (_type == 2) then {
 	};
 };
 
+_unit setVariable["USEC_BloodQty",_player_blood,true];
 if (_player_blood <= 0) then {
 	[_unit,_source,"bled"] spawn disco_playerDeath;
 };
-_unit setVariable["USEC_BloodQty",_player_blood,true];
-// _damage
+//diag_log format["DEBUG: _player_blood=%1 [%2]",_player_blood,_this];
+//_damage
