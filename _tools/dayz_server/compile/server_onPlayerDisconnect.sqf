@@ -14,15 +14,14 @@ if (vehicle _object != _object) then {
 diag_log format["DISCONNECT: %1 (%2) Object: %3, _characterID: %4", _playerName,_playerID,_object,_characterID];
 
 [_object,[],true] call server_playerSync;
-
 _id = [_playerID,_characterID,2] spawn dayz_recordLogin;
 
 if (!isNull _object) then {
 	if (alive _object) then {
 		[_object,_playerID,_characterID] spawn disco_playerMorph;
-		_myGroup = group _object;
-		deleteVehicle _object;
-		deleteGroup _myGroup;
+//		_myGroup = group _object;
+//		deleteVehicle _object;
+//		deleteGroup _myGroup;
 	};
 };
 
