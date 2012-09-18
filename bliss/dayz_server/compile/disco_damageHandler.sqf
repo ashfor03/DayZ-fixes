@@ -3,7 +3,8 @@
 	- Function
 	- [unit, selectionName, damage, source, projectile] call disco_damageHandler;
 ************************************************************/
-private["_unit","_characterID","_humanityHit","_myKills","_isBandit","_hit","_damage","_isPlayer","_unconscious","_wound","_isHit","_isInjured","_type","_hitPain","_inPain","_isDead","_isCardiac","_killerID","_evType","_recordable","_inVehicle","_isHeadHit","_isMinor","_scale","_canHitFree","_player_blood"];
+private["_unit","_hit","_damage","_unconscious","_source","_ammo","_type","_isMinor","_isHeadHit","_inVehicle","_isPlayer",
+	"_humanityHit","_myKills","_characterID","_player_blood"];
 _unit = _this select 0;
 _hit = _this select 1;
 _damage = _this select 2;
@@ -14,8 +15,6 @@ _type = [_damage,_ammo] call fnc_usec_damageType;
 _isMinor = (_hit in USEC_MinorWounds);
 _isHeadHit = (_hit == "head_hit");
 _inVehicle = (vehicle _unit != _unit);
-_evType = "";
-_recordable = false;
 _isPlayer = (isPlayer _source);
 _humanityHit = 0;
 _myKills = 0;
@@ -27,6 +26,7 @@ if (_characterID == "0") exitWith
 	diag_log "DEBUG: disco_damageHandler: CharacterID is 0";
 };
 
+private["_scale"];
 //PVP Damage
 _scale = 200;
 if (_damage > 0.4) then {
@@ -69,6 +69,8 @@ if (_hit in USEC_MinorWounds) then {
 if (_damage > 0.1) then {
 		_unit setVariable["medForceUpdate",true,true];
 };
+
+private["_wound","_isHit","_rndPain","_isInjured","_rndInfection","_rndPain","_hitPain","_inPain","_hitInfection"];
 if (_damage > 0.4) then {	//0.25
 	/*
 		BLEEDING
@@ -99,19 +101,20 @@ if (_damage > 0.4) then {	//0.25
 		[_unit,_source,"shothead"] spawn disco_playerDeath;
 	};
 };
+private["_isInjured","_lowBlood"];
 if(!_isHit) then {
 	//Create Wound
 	_unit setVariable[_wound,true,true];
 	[_unit,_wound,_hit] spawn fnc_usec_damageBleed;
 	usecBleed = [_unit,_wound,_hit];
 	publicVariable "usecBleed";
-
 	//Set Injured if not already
 	_isInjured = _unit getVariable["USEC_injured",false];
 	if (!_isInjured) then {
 		_unit setVariable["USEC_injured",true,true];
+		[_unit] spawn disco_playerBleed;
 		if (_ammo != "zombie") then {
-			dayz_sourceBleeding = _source;
+//			dayz_sourceBleeding = _source;
 		};
 	};
 	//Set ability to give blood
@@ -120,6 +123,7 @@ if(!_isHit) then {
 		_unit setVariable["USEC_lowBlood",true,true];
 	};
 };
+private["_isCardiac"];
 if (_type == 1) then {
 	/*
 		BALISTIC DAMAGE		

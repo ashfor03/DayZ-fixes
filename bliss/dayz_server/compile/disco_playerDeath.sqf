@@ -52,4 +52,4 @@ if (!_isDead) then {
 		};
 	};
 	_object setVariable ["deathType",_method,true];
-};
+};	

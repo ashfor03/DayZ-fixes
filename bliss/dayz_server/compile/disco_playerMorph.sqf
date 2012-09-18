@@ -17,6 +17,33 @@ _object removeAllEventHandlers "HandleDamage";
 _object removeAllEventHandlers "Killed";
 _object removeAllEventHandlers "Fired";
 
+disco_playerBleed ={
+	private["_unit","_isInjured","_player_blood","_bleedPerSec","_myBleedTime","_bTime"];
+	_unit = _this select 0;
+	_isInjured = _unit getVariable["USEC_injured",false];
+	_player_blood = _unit getVariable["USEC_BloodQty",12000];
+	_bleedPerSec = 30;
+	_myBleedTime = 50; // disconnect time + 5 sec
+	_bTime = 0;
+	while {_isInjured} do {
+		_player_blood = _unit getVariable["USEC_BloodQty",12000];
+		//bleed out
+		if (_player_blood > 0) then {
+			_player_blood = _player_blood - _bleedPerSec;
+		} else { 
+			[_unit,"","bled"] spawn disco_playerDeath; 
+			_isInjured = false; // exit from loop
+		};
+		_bTime = _bTime + 1;
+		if (_bTime > _myBleedTime) then {
+			_isInjured = false; // exit from loop
+		};
+		sleep 1;
+		_unit setVariable["USEC_BloodQty",_player_blood,true];
+	};
+};
+
+
 private["_updates","_humanity","_legs","_arms","_medical","_worldspace","_zombieKills","_headShots","_humanKills","_banditKills","_temp"];
 _updates 	= _object getVariable["updatePlayer",[false,false,false,false,false]];
 _updates set [0,true];
@@ -80,7 +107,7 @@ while {_doLoop < 5} do {
 	_doLoop = _doLoop + 1;
 };
 private ["_group","_newUnit"];
-// get from DB ammo count
+// get ammo from DB
 _magazines = (_primary select 4) select 1;
 
 //Create New Character
@@ -132,6 +159,7 @@ if (!isNil "_newBackpackType") then {
 	};
 };
 //set medical values
+private["_fractures"];
 if (count _medical > 0) then {
 	_newUnit setVariable["USEC_isDead",(_medical select 0),true];
 	_newUnit setVariable["NORRN_unconscious", (_medical select 1), true];
@@ -149,6 +177,7 @@ if (count _medical > 0) then {
 		usecBleed = [_newUnit,_x,0];
 		publicVariable "usecBleed";
 	} forEach (_medical select 8);
+	[_newUnit] spawn disco_playerBleed;
 	//Add fractures
 	_fractures = (_medical select 9);
 	_newUnit setVariable ["hit_legs",(_fractures select 0),true];
