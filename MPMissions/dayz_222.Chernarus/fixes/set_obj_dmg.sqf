@@ -29,5 +29,5 @@ if (_dam < 1 ) then {
                 	publicVariable "dayzUpdateVehicle";
 	        };
 	};
-} else { _unit removeAllEventHandlers "HandleDamage" };
+}; // else { _unit removeAllEventHandlers "HandleDamage" };
 _total
