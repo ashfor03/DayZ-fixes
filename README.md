@@ -26,6 +26,6 @@ also added:
 
 * autosave when gear, 
 * autosave when getout from vehicle
-* disconnecting penalty (anti ALT+F4)
+* disconnect penalty (anti ALT+F4)
 
 visit forum: http://www.tunngle.net/community/topic/92761-fix-all-in-one-fixes-for-dayz-1726/
