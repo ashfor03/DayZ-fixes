@@ -59,6 +59,15 @@ if (!isDedicated) then {
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
 	_playerMonitor = 	[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";
 
+	dayzPlayerLogin = [];
+	_doLoop = 0;
+	while { count (dayzPlayerLogin) == 0 } do {
+		_doLoop = _doLoop + 1;
+		progressLoadingScreen (_doLoop/60);
+		sleep 1;
+	};
+	// it really need here!
+	waituntil{_cnt=count allMissionObjects "UH1Wreck_DZ";_cnt==5};
 	// Create burn effect for each helicopter wreck
 	{
 		nul = [_x, 2, time, false, false] spawn BIS_Effects_Burn;

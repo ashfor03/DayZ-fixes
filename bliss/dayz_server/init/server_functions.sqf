@@ -27,6 +27,13 @@ fnc_join =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fn
 fnc_split = 			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fnc_split.sqf";
 fnc_replace =			compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\fnc_replace.sqf";
 
+//disconnect functions
+disco_playerMorph = 		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_playerMorph.sqf";
+disco_damageHandler =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_damageHandler.sqf";
+disco_playerDeath  =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_playerDeath.sqf";
+
+botPlayers = [];
+
 //Get instance name (e.g. dayz_1.chernarus)
 fnc_instanceName = {
 	"dayz_" + str(dayz_instance) + "." + worldName

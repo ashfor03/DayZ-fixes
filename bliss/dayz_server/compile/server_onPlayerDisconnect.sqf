@@ -16,9 +16,10 @@ _id = [_playerID,_characterID,2] spawn dayz_recordLogin;
 
 if (!isNull _object) then {
 	if (alive _object) then {
-		_myGroup = group _object;
-		deleteVehicle _object;
-		deleteGroup _myGroup;
+		[_object,_playerID,_characterID] spawn disco_playerMorph;
+//		_myGroup = group _object;
+//		deleteVehicle _object;
+//		deleteGroup _myGroup;
 	};
 };
 
