@@ -48,6 +48,8 @@ player_wearClothes_orig = compile preprocessFileLineNumbers "\z\addons\dayz_code
 player_tentPitch_orig   = compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\tent_pitch.sqf";
 player_fillWater_orig   = compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\water_fill.sqf";
 
+sleep 0.1;
+
 if (isServer) then {
 	hiveInUse = true;
 	_serverMonitor = [] execVM "\z\addons\dayz_server\system\server_monitor.sqf";
