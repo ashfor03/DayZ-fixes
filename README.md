@@ -20,6 +20,7 @@ currently it work without modification with Pwnoz0r (https://github.com/Pwnoz0r/
 15. no dupe items using zombies/animals (https://dev-heaven.net/issues/37479) (with side effect :( )
 16. infinite eating and drinking in vehicle (https://dev-heaven.net/issues/45578)
 17. corrected dayz_objectUID and dayz_objectUID2 (rounding issue)
+18. uiControl annoying error message
 
 also added:
 ----------

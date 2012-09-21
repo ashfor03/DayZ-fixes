@@ -38,6 +38,9 @@ player_humanityMorph    = compile preprocessFileLineNumbers "fixes\player_humani
 player_updateGui        = compile preprocessFileLineNumbers "fixes\player_updateGui.sqf";
 player_countmagazines   = compile preprocessFileLineNumbers "fixes\player_countMagazines.sqf";
 
+player_selectSlot 	= compile preprocessFileLineNumbers "fixes\ui_selectSlot.sqf";
+player_reloadMag 	= compile preprocessFileLineNumbers "fixes\player_reloadMags.sqf";
+
 // Original functions being overridden
 player_build_orig       = compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\player_build.sqf";
 player_cook_orig        = compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\cook.sqf";

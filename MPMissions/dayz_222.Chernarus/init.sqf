@@ -56,8 +56,10 @@ player_switchModel = compile preprocessFileLineNumbers "fixes\player_switchModel
 player_gearSync = compile preprocessFileLineNumbers "fixes\player_gearSync.sqf";
 player_humanityMorph = compile preprocessFileLineNumbers "fixes\player_humanityMorph.sqf";
 player_updateGui = compile preprocessFileLineNumbers "fixes\player_updateGui.sqf";
+player_selectSlot = compile preprocessFileLineNumbers "fixes\ui_selectSlot.sqf";
+player_reloadMag = compile preprocessFileLineNumbers "fixes\player_reloadMags.sqf";
 // count player magazines
-player_countmagazines = compile preprocessFileLineNumbers "fixes\player_countmagazines.sqf";
+player_countmagazines 	= compile preprocessFileLineNumbers "fixes\player_countmagazines.sqf";
 // original function
 player_build_orig 	= compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\player_build.sqf";
 player_drink_orig 	= compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\player_drink.sqf";
@@ -67,7 +69,6 @@ player_wearClothes_orig	= compile preprocessFileLineNumbers "\z\addons\dayz_code
 player_tentPitch_orig	= compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\tent_pitch.sqf";
 player_fillWater_orig 	= compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\water_fill.sqf";
 player_gearSync_orig 	= compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\player_gearSync.sqf";
-// player_reloadMag 	= compile preprocessFileLineNumbers "\z\addons\dayz_code\actions\player_reloadMags.sqf";
 
 if (isServer) then {
 	//Run the server monitor
