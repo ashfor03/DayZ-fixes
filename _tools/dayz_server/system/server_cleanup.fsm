@@ -264,13 +264,14 @@ class FSM
        "_outcome = _result select 0;" \n
        "if(_outcome == ""PASS"") then {" \n
        "	_date = _result select 1; " \n
-       "	if(isDedicated) then {" \n
+       "	_dateNow = date;" \n
+       "	_diff = ( dateToNumber (_date) - dateToNumber (_dateNow) )*365*24*60;" \n
+       "	if ( isDedicated && ( _diff > 5 || _diff < -5 ) ) then {" \n
        "		setDate _date;" \n
        "		dayzSetDate = _date;" \n
        "		publicVariable ""dayzSetDate"";" \n
+       "		diag_log (""TIME SYNC: Local Time set to "" + str(_date));" \n
        "	};" \n
-       "" \n
-       "	diag_log (""TIME SYNC: Local Time set to "" + str(_date));" \n
        "};" \n
        ""/*%FSM</STATEINIT""">*/;
       precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
