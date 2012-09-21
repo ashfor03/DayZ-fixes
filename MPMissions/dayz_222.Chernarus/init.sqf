@@ -88,10 +88,12 @@ if (!isDedicated) then {
 	dayzPlayerLogin = [];
 	_doLoop = 0;
 	while { count (dayzPlayerLogin) == 0 } do {
-		_doLoop = _doLoop + 1;
+		call compile format["startLoadingScreen ['Reconnect penalty: %1','RscDisplayLoadMission']",60-_doLoop];
+		_doLoop=_doLoop+1;
 		progressLoadingScreen (_doLoop/60);
 		sleep 1;
 	};
+	endLoadingScreen;
 // 	need wait for creation all vehicles, when first player join.
 	waituntil{_cnt=count allMissionObjects "UH1Wreck_DZ";_cnt==5};
 	_heliCrash = allmissionobjects "UH1Wreck_DZ";
