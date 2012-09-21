@@ -85,9 +85,6 @@ if (!isDedicated) then {
 	//Run the player monitor
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
 	_playerMonitor = 	[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
-
-<<<<<<< HEAD
-=======
 	dayzPlayerLogin = [];
 	_doLoop = 0;
 	while { count (dayzPlayerLogin) == 0 } do {
@@ -97,7 +94,6 @@ if (!isDedicated) then {
 		sleep 1;
 	};
 	endLoadingScreen;
->>>>>>> origin/development
 // 	need wait for creation all vehicles, when first player join.
 	waituntil{_cnt=count allMissionObjects "UH1Wreck_DZ";_cnt==5};
 	_heliCrash = allmissionobjects "UH1Wreck_DZ";
