@@ -57,6 +57,7 @@ _headShots 	= _object getVariable ["headShots",0];
 _humanKills 	= _object getVariable ["humanKills",0];
 _banditKills 	= _object getVariable ["banditKills",0];
 _medical 	= _object call player_sumMedical;
+_messing	= _object getVariable ["messing",[0,0]];
 
 //BackUp Weapons and Mags
 private ["_weapons","_magazines","_primweapon","_secweapon"];
@@ -194,6 +195,8 @@ _newUnit setVariable["characterID",str(_characterID),true];
 _newUnit setVariable["worldspace",_worldspace,true];
 _newUnit setVariable["bodyName",_playerName,true];
 _newUnit setVariable["playerID",_playerID,true];
+_newUnit setVariable["temperature",_temp,true];
+_newUnit setVariable["messing",_messing,true];
 
 //Move to position
 	_newUnit allowDamage true;
@@ -217,7 +220,7 @@ sleep 45;
 _newUnit removeAllEventHandlers "handleDamage";
 
 private ["_isDead"];
-_isDead = _newUnit getVariable["dead",false];
+_isDead = _newUnit getVariable["USEC_isDead",false];
 diag_log format["DEBUG: Player %1 is alive? %2:%3", _playerName,!_isDead, alive _newUnit];
 if (!_isDead) then {
 	[_newUnit,_magazines,true] call server_playerSync;

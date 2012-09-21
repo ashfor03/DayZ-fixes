@@ -8,7 +8,7 @@ _method = 	_this select 2;
 _playerID = 	_object getVariable["playerID",0]; //playerUID
 _characterID = 	_object getVariable["characterID",0]; //characterID
 _playerName = 	_object getVariable["bodyName","unknown"];
-_isDead =	_object getVariable["dead",false];
+_isDead =	_object getVariable["USEC_isDead",false];
 _humanity =	0;
 _wait = 	0;
 
@@ -17,7 +17,7 @@ _object removeAllEventHandlers "HandleDamage";
 if (!_isDead) then {
 	_id = [_characterID,0,_object,_playerID,_playerName] spawn server_playerDied;
 	_object setDamage 1;
-	_object setVariable["dead",true,true];
+	_object setVariable["USEC_isDead",true,true];
 	_id = _object spawn spawn_flies; // work?
 	 dayzFlies = _object;
 	 publicVariable "dayzFlies";
