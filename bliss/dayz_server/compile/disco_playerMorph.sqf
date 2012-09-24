@@ -6,7 +6,7 @@ private["_object","_playerID","_characterID","_playerName","_model","_position",
 _object 	= _this select 0;
 _playerID 	= _this select 1; //playerUID
 _characterID 	= _this select 2; //characterID
-_playerName	= name _object;
+_playerName	= _object getVariable["bodyName","unknown"]; //name _object;
 _model		= typeOf _object;
 _position 	= getPosATL _object;
 _dir 		= getDir _object;
@@ -25,22 +25,6 @@ disco_playerBleed ={
 	_bleedPerSec = 30;
 	_myBleedTime = 50; // disconnect time + 5 sec
 	_bTime = 0;
-	while {_isInjured} do {
-		_player_blood = _unit getVariable["USEC_BloodQty",12000];
-		//bleed out
-		if (_player_blood > 0) then {
-			_player_blood = _player_blood - _bleedPerSec;
-		} else { 
-			[_unit,"","bled"] spawn disco_playerDeath; 
-			_isInjured = false; // exit from loop
-		};
-		_bTime = _bTime + 1;
-		if (_bTime > _myBleedTime) then {
-			_isInjured = false; // exit from loop
-		};
-		sleep 1;
-		_unit setVariable["USEC_BloodQty",_player_blood,true];
-	};
 };
 
 
@@ -178,7 +162,6 @@ if (count _medical > 0) then {
 		usecBleed = [_newUnit,_x,0];
 		publicVariable "usecBleed";
 	} forEach (_medical select 8);
-	[_newUnit] spawn disco_playerBleed;
 	//Add fractures
 	_fractures = (_medical select 9);
 	_newUnit setVariable ["hit_legs",(_fractures select 0),true];
@@ -214,14 +197,20 @@ _newUnit setVariable["messing",_messing,true];
 	_newUnit addWeapon "Flare";
 botPlayers = botPlayers + [_playerID];
 _mydamage_eh1 = _newUnit addeventhandler ["HandleDamage",{ _this call disco_damageHandler;0 }];
-diag_log format["botPlayers: %1", botPlayers];
 
-sleep 45;
+diag_log format["DEBUG: botPlayers: %1", botPlayers];
+
+private["_doLoop","_isDead"];
+_isDead = _newUnit getVariable["USEC_isDead",false];
+_doLoop = 0;
+while { _doLoop < 55 && !_isDead  } do {
+	_isDead = _newUnit getVariable["USEC_isDead",false];
+	_doLoop = _doLoop + 1;
+	sleep 1;
+};
 _newUnit removeAllEventHandlers "handleDamage";
 
-private ["_isDead"];
-_isDead = _newUnit getVariable["USEC_isDead",false];
-diag_log format["DEBUG: Player %1 is alive? %2:%3", _playerName,!_isDead, alive _newUnit];
+//diag_log format["DEBUG: Player %1 is alive? %2:%3", _playerName,!_isDead, alive _newUnit];
 if (!_isDead) then {
 	[_newUnit,_magazines,true] call server_playerSync;
 	_id = [_playerID,_characterID,2] spawn dayz_recordLogin;

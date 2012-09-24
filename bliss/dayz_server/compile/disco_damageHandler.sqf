@@ -18,69 +18,83 @@ _inVehicle = (vehicle _unit != _unit);
 _isPlayer = (isPlayer _source);
 _humanityHit = 0;
 _myKills = 0;
-_characterID = _unit getVariable ["CharacterID","0"];
+_characterID = _unit getVariable["CharacterID","0"];
 _player_blood = _unit getVariable["USEC_BloodQty",12000];
+
+private["_strH","_dam","_total","_totalDmg"];
+_strH = "hit_" + (_hit);
+_dam = _unit getVariable [_strH,0];
+if ( _dam > 1 ) then { _dam = 1 };
+_total = _dam + _damage;
+_unit setVariable [_strH,_total,true];
 
 if (_characterID == "0") exitWith
 {
 	diag_log "DEBUG: disco_damageHandler: CharacterID is 0";
 };
 
+_totalDmg = 0;
+{
+	_strH = "hit_" + _x;
+	_dam = _unit getVariable[_strH,0];
+	_totalDmg = _totalDmg + _dam;
+} forEach USEC_woundHit;
+
 private["_scale"];
 //PVP Damage
 _scale = 200;
-if (_damage > 0.4) then {
-	if (_ammo != "zombie") then {
-		_scale = _scale + 50;
-	};
+if (_total > 0) then {
+	_scale = _scale + 50;
 	if (_isHeadHit) then {
 		_scale = _scale + 500;
-	};
-	if (_source == _unit) then {
-		_scale = _scale + 800;
-		if (_isHeadHit) then {
-			_scale = _scale + 500;
-		};
 	};
 	switch (_type) do {
 		case 1: {_scale = _scale + 200};
 		case 2: {_scale = _scale + 200};
 	};
 	//Cause blood loss
-	_player_blood = _player_blood - (_damage * _scale);
+	_player_blood = _player_blood - (_total * _scale);
 };
 
 //Record Damage to Minor parts (legs, arms)
-if (_hit in USEC_MinorWounds) then {
-	if (_ammo == "zombie") then {
-		if (_hit == "legs") then {
-			[_unit,_hit,(_damage / 6)] call object_processHit;
-		} else {
-			[_unit,_hit,(_damage / 4)] call object_processHit;
-		};
-	} else {;
-		[_unit,_hit,(_damage / 2)] call object_processHit;
-	};
-	if (_ammo == "") then {
-		[_unit,_hit,_damage] call object_processHit;
-	};
-};
+if ( (_hit == "legs") && (_total == 1) ) then { _unit setVariable ["hit_legs",1,true]; };
+if ( (_hit == "hands") && (_total == 1) ) then { _unit setVariable ["hit_hands",1,true]; };
 
-if (_damage > 0.1) then {
+if (_total > 0.1) then {
 		_unit setVariable["medForceUpdate",true,true];
 };
 
 private["_wound","_isHit","_rndPain","_isInjured","_rndInfection","_rndPain","_hitPain","_inPain","_hitInfection"];
-if (_damage > 0.4) then {	//0.25
+if (_type == 1) then {
+	/*
+		BALISTIC DAMAGE
+	*/
+	if (_totalDmg > 4) then {
+		//serious ballistic damage
+		//no message for this when study
+		[_unit,_source,"explosion"] spawn disco_playerDeath;
+	};
+};
+if (_type == 2) then {
+	/*
+		HIGH CALIBRE
+	*/
+	if (_totalDmg > 4) then {
+		//serious ballistic damage
+		[_unit,_source,"shotheavy"] spawn disco_playerDeath;
+	}
+};
+if (_total > 0.4) then {	//0.25
 	/*
 		BLEEDING
 	*/		
 	_wound = _hit call fnc_usec_damageGetWound;
 	_isHit = _unit getVariable[_wound,false];
+	diag_log format["DEBUG: wound:%1 [%2]",_wound,_isHit];
 	_rndPain = 		(random 10);
 	_rndInfection = (random 1000);
-	_hitPain = 		(_rndPain < _damage);
-	if ((_isHeadHit) or (_damage > 1.2 and _hitPain)) then {
+	_hitPain = 		(_rndPain < _total);
+	if (_isHeadHit or _hitPain) then {
 		_hitPain = true;
 	};
 	_hitInfection = (_rndInfection < 1);
@@ -97,13 +111,14 @@ if (_damage > 0.4) then {	//0.25
 		//Set Pain if not already
  			_unit setVariable["USEC_inPain",true,true];
 	};
-	if ((_damage > 1.5) and _isHeadHit) then {
+	if ((_total > 1) and _isHeadHit) then {
 		[_unit,_source,"shothead"] spawn disco_playerDeath;
 	};
 };
-private["_isInjured","_lowBlood"];
+private["_isInjured"];
 if(!_isHit) then {
 	//Create Wound
+	diag_log format["DEBUG: spawn bleed %1",_wound];
 	_unit setVariable[_wound,true,true];
 	[_unit,_wound,_hit] spawn fnc_usec_damageBleed;
 	usecBleed = [_unit,_wound,_hit];
@@ -112,54 +127,10 @@ if(!_isHit) then {
 	_isInjured = _unit getVariable["USEC_injured",false];
 	if (!_isInjured) then {
 		_unit setVariable["USEC_injured",true,true];
-		[_unit] spawn disco_playerBleed;
-		if (_ammo != "zombie") then {
-//			dayz_sourceBleeding = _source;
-		};
-	};
-	//Set ability to give blood
-	_lowBlood = _unit getVariable["USEC_lowBlood",false];
-	if (!_lowBlood) then {
-		_unit setVariable["USEC_lowBlood",true,true];
-	};
-};
-private["_isCardiac"];
-if (_type == 1) then {
-	/*
-		BALISTIC DAMAGE		
-	*/		
-	if (_damage > 4) then {
-		//serious ballistic damage
-		[_unit,_source,"explosion"] spawn disco_playerDeath;
-	} else {
-		if (_damage > 2) then {
-			_isCardiac = _unit getVariable["USEC_isCardiac",false];
-			if (!_isCardiac) then {
-				_unit setVariable["USEC_isCardiac",true,true];
-			};
-		};
-	};
-};
-if (_type == 2) then {
-	/*
-		HIGH CALIBRE
-	*/
-	if (_damage > 4) then {
-		//serious ballistic damage
-		[_unit,_source,"shotheavy"] spawn disco_playerDeath;
-	} else {
-		if (_damage > 2) then {
-			_isCardiac = _unit getVariable["USEC_isCardiac",false];
-			if (!_isCardiac) then {
-				_unit setVariable["USEC_isCardiac",true,true];
-			};
-		};
 	};
 };
 
 _unit setVariable["USEC_BloodQty",_player_blood,true];
-if (_player_blood <= 0) then {
+if ( (_totalDmg >= 4) || (_player_blood <= 0) ) then {
 	[_unit,_source,"bled"] spawn disco_playerDeath;
 };
-//diag_log format["DEBUG: _player_blood=%1 [%2]",_player_blood,_this];
-//_damage
