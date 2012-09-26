@@ -70,7 +70,7 @@ player setVariable["zombieKills",_zombieKills,true];
 player setVariable["headShots",_headShots,true];
 player setVariable["humanKills",_humanKills,true];
 player setVariable["banditKills",_banditKills,true];
-player setVariable["characterID",str(_charID),true];
+player setVariable["characterID",_charID,true];
 player setVariable["worldspace",_worldspace,true];
 
 dayzPlayerMorph = [_charID,player,_playerUID,[_zombieKills,_headShots,_humanKills,_banditKills],_humanity];
