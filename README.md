@@ -21,6 +21,7 @@ currently it work without modification with Pwnoz0r (https://github.com/Pwnoz0r/
 16. infinite eating and drinking in vehicle (https://dev-heaven.net/issues/45578)
 17. corrected dayz_objectUID and dayz_objectUID2 (rounding issue)
 18. uiControl annoying error message
+19. correct save/deletion for tents.
 
 also added:
 ----------
