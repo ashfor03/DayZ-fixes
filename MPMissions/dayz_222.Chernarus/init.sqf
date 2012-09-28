@@ -41,23 +41,24 @@ if ((!isServer) && (player != player)) then
 // reassign functions
 // call compile preprocessFileLineNumbers "fixes\_fixes.sqf";
 // damage eventhanling
-set_obj_dmg = compile preprocessFileLineNumbers "fixes\set_obj_dmg.sqf";
-fnc_vehicleEventHandler = compile preprocessFileLineNumbers "fixes\vehicle_init.sqf";
+set_obj_dmg 		= compile preprocessFileLineNumbers "fixes\set_obj_dmg.sqf";
+fnc_vehicleEventHandler	= compile preprocessFileLineNumbers "fixes\vehicle_init.sqf";
 // action hooks
-player_build = compile preprocessFileLineNumbers "fixes\player_build.sqf";
-player_drink = compile preprocessFileLineNumbers "fixes\player_drink.sqf";
-player_eat = compile preprocessFileLineNumbers "fixes\player_eat.sqf";
-player_useMeds = compile preprocessFileLineNumbers "fixes\player_useMeds.sqf";
-player_wearClothes = compile preprocessFileLineNumbers "fixes\player_wearClothes.sqf";
-player_tentPitch = compile preprocessFileLineNumbers "fixes\tent_pitch.sqf";
-player_fillWater = compile preprocessFileLineNumbers "fixes\water_fill.sqf";
-player_switchModel = compile preprocessFileLineNumbers "fixes\player_switchModel.sqf";
+player_build 		= compile preprocessFileLineNumbers "fixes\player_build.sqf";
+player_drink 		= compile preprocessFileLineNumbers "fixes\player_drink.sqf";
+player_eat 		= compile preprocessFileLineNumbers "fixes\player_eat.sqf";
+player_useMeds 		= compile preprocessFileLineNumbers "fixes\player_useMeds.sqf";
+player_wearClothes 	= compile preprocessFileLineNumbers "fixes\player_wearClothes.sqf";
+player_tentPitch 	= compile preprocessFileLineNumbers "fixes\tent_pitch.sqf";
+player_fillWater 	= compile preprocessFileLineNumbers "fixes\water_fill.sqf";
+player_switchModel 	= compile preprocessFileLineNumbers "fixes\player_switchModel.sqf";
 // other hooks
-player_gearSync = compile preprocessFileLineNumbers "fixes\player_gearSync.sqf";
-player_humanityMorph = compile preprocessFileLineNumbers "fixes\player_humanityMorph.sqf";
-player_updateGui = compile preprocessFileLineNumbers "fixes\player_updateGui.sqf";
-player_selectSlot = compile preprocessFileLineNumbers "fixes\ui_selectSlot.sqf";
-player_reloadMag = compile preprocessFileLineNumbers "fixes\player_reloadMags.sqf";
+player_gearSync 	= compile preprocessFileLineNumbers "fixes\player_gearSync.sqf";
+player_humanityMorph 	= compile preprocessFileLineNumbers "fixes\player_humanityMorph.sqf";
+player_updateGui 	= compile preprocessFileLineNumbers "fixes\player_updateGui.sqf";
+player_selectSlot 	= compile preprocessFileLineNumbers "fixes\ui_selectSlot.sqf";
+player_reloadMag 	= compile preprocessFileLineNumbers "fixes\player_reloadMags.sqf";
+player_packTent 	= compile preprocessFileLineNumbers "fixes\player_packTent.sqf";
 // count player magazines
 player_countmagazines 	= compile preprocessFileLineNumbers "fixes\player_countmagazines.sqf";
 // original function
