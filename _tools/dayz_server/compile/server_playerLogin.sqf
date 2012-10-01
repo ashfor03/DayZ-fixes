@@ -41,6 +41,8 @@ if ((_playerID == "") or (isNil "_playerID")) exitWith {
 
 while {_playerID in botPlayers} do { sleep 5 };
 endLoadingScreen;
+penaltyTimeout = false;
+(owner _playerObj) publicVariableClient "penaltyTimeout";
 
 diag_log ("LOGIN ATTEMPT: " + str(_playerID) + " " + _playerName);
 
