@@ -44,7 +44,11 @@ if (_result == 0) exitWith {
 	diag_log("LOGIN FAILED: Player [" + _playerName + "] is not in the whitelist");
 };
 
+while {_playerID in botPlayers} do { sleep 5 };
 endLoadingScreen;
+penaltyTimeout = false;
+(owner _playerObj) publicVariableClient "penaltyTimeout";
+
 diag_log ("LOGIN ATTEMPT: " + str(_playerID) + " " + _playerName);
 
 //Do Connection Attempt
