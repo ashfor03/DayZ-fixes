@@ -152,6 +152,10 @@ diag_log "HIVE: Starting";
 	_outcome = _result select 0;
 	if(_outcome == "PASS") then {
 		_date = _result select 1; 
+		_year = _date select 0;
+		_dateNum = dateToNumber(_date);
+		_dateNum = _dateNum + ((tzOffset)/(365*24));
+		_date = NumberToDate[_year,_dateNum];
 		if(isDedicated) then {
 			setDate _date;
 			dayzSetDate = _date;

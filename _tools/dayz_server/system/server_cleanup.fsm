@@ -264,7 +264,11 @@ class FSM
        "_outcome = _result select 0;" \n
        "if(_outcome == ""PASS"") then {" \n
        "	_date = _result select 1; " \n
-       "	_diff = ( dateToNumber (_date) - dateToNumber (date) )*365*24*60;" \n
+       "	_year = _date select 0; " \n
+       "	_dateNum = dateToNumber(_date); " \n
+       "	_dateNum = _dateNum + ((tzOffset)/(365*24)); " \n
+       "	_diff = ( _dateNum - dateToNumber (date) )*365*24*60;" \n
+       "	_date = NumberToDate[_year,_dateNum]; " \n
        "	if ( abs(_diff)>5 ) then {" \n
        "		setDate _date;" \n
        "		dayzSetDate = _date;" \n
