@@ -216,7 +216,7 @@ if (!_isDead) then {
 	_medical = _newUnit call player_sumMedical;
 	_newBackpack = unitBackpack _newUnit;
 	_playerBackp = [typeOf _newBackpack,getWeaponCargo _newBackpack,getMagazineCargo _newBackpack];
-	_group = group _newUnit;
+//	_group = group _newUnit;
 	deleteVehicle _newUnit;
 	deleteGroup _group;
 //Send to HIVE backpack and medical only
