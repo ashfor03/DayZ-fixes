@@ -174,7 +174,7 @@ if (count _medical > 0) then {
 	_newUnit setVariable ["USEC_inPain",false,true];	
 };
 //General Stats
-_newUnit setVariable["characterID",str(_characterID),true];
+_newUnit setVariable["characterID",_characterID,true];
 _newUnit setVariable["worldspace",_worldspace,true];
 _newUnit setVariable["bodyName",_playerName,true];
 _newUnit setVariable["playerID",_playerID,true];
@@ -212,10 +212,14 @@ _newUnit removeAllEventHandlers "handleDamage";
 
 //diag_log format["DEBUG: Player %1 is alive? %2:%3", _playerName,!_isDead, alive _newUnit];
 if (!_isDead) then {
-	[_newUnit,_magazines,true] call server_playerSync;
-	_id = [_playerID,_characterID,2] spawn dayz_recordLogin;
+	private["_playerBackp"];
+	_medical = _newUnit call player_sumMedical;
+	_newBackpack = unitBackpack _newUnit;
+	_playerBackp = [typeOf _newBackpack,getWeaponCargo _newBackpack,getMagazineCargo _newBackpack];
 	_group = group _newUnit;
 	deleteVehicle _newUnit;
 	deleteGroup _group;
+//Send to HIVE backpack and medical only
+	[_characterID,[],[],_playerBackp,_medical,[],""] call server_characterSync;
 };
 botPlayers = botPlayers - [_playerID];
