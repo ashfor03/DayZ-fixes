@@ -1,7 +1,7 @@
 /*
 
 */
-private["_hasDel","_serial","_object","_updates","_myGroup","_nearVeh"];
+private["_hasDel","_serial","_object","_objects","_updates","_myGroup","_nearVeh"];
 _playerID = _this select 0;
 _playerName = _this select 1;
 _object = call compile format["player%1",_playerID];
@@ -13,11 +13,14 @@ if (vehicle _object != _object) then {
 
 diag_log format["DISCONNECT: %1 (%2) Object: %3, _characterID: %4", _playerName,_playerID,_object,_characterID];
 
-[_object,[],true] call server_playerSync;
-_id = [_playerID,_characterID,2] spawn dayz_recordLogin;
-
+dayz_disco = dayz_disco - [_playerID];
 if (!isNull _object) then {
+//Update Vehicle
+	{ [_x,"gear"] call server_updateObject } foreach 
+		(nearestObjects [getPosATL _object, ["Car", "Helicopter", "Motorcycle", "Ship", "TentStorage"], 10]);
 	if (alive _object) then {
+		[_object,[],true] call server_playerSync;
+		_id = [_playerID,_characterID,2] spawn dayz_recordLogin;
 		[_object,_playerID,_characterID] spawn disco_playerMorph;
 //		_myGroup = group _object;
 //		deleteVehicle _object;
@@ -25,16 +28,3 @@ if (!isNull _object) then {
 	};
 };
 
-/*
-//Update Vehicle
-if (!isNull _object) then {
-	_nearVeh = nearestObjects [_object, ["AllVehicles","TentStorage"], 20];
-	{
-		[_x,"gear"] call server_updateObject;
-		if (_x isKindOf "AllVehicles") then {
-			[_x,"repair"] call server_updateObject;
-			[_x,"position"] call server_updateObject;
-		};
-	} forEach _nearVeh;
-};
-*/
