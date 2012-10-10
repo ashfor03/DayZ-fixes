@@ -233,8 +233,8 @@ call compile format["myObj = player%1",_playerID];
 
 if (!(isNull myObj)) then {
 	if (alive myObj) then {
-		deleteVehicle myObj;
-		diag_log ("LOGIN DUPLICATE PLAYER: " + str(_playerObj) + " DELETED ORIGINAL");
+//		deleteVehicle myObj;
+		diag_log format["LOGIN DUPLICATE PLAYER: %1 DELETED ORIGINAL [%2]",_playerObj,myObj];
 	};
 };
 
