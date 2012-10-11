@@ -66,15 +66,18 @@ server_hiveWrite = {
 	private["_resultArray","_data"];
 	//diag_log ("ATTEMPT WRITE: " + _this);
 	_data = "HiveEXT" callExtension _this;
-	diag_log ("WRITE: " + _data);
+//	diag_log ("WRITE: " + _data);
+	diag_log format["WRITE: ->%1[%2]",_data,_this];
 };
 
 server_hiveReadWrite = {
 	private["_key","_resultArray","_data"];
 	_key = _this select 0;
 	//diag_log ("ATTEMPT READ/WRITE: " + _key);
+	diag_log format["READ/WRITE: ->[%1]",_key];
 	_data = "HiveEXT" callExtension _key;
-	diag_log ("READ/WRITE: " + _data);
+//	diag_log ("READ/WRITE: " + _data);
+	diag_log format["READ/WRITE: <-[%1]",_resultArray];
 	_resultArray = call compile format ["%1;",_data];
 	_resultArray;
 };
