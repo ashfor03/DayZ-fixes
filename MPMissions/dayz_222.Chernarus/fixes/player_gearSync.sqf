@@ -44,4 +44,4 @@ _countr = 0;
 	_countr = _countr + 1;
 } forEach _backpackmagTypes;
 
-call player_gearSync_orig;
+_this call player_gearSync_orig;
