@@ -27,6 +27,57 @@ disco_damageHandler =		compile preprocessFileLineNumbers "\z\addons\dayz_server\
 disco_playerDeath  =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_playerDeath.sqf";
 botPlayers = [];
 
+"playerBackPack" addPublicVariableEventHandler {_id = (_this select 1) spawn server_backpackCheck};
+
+server_backpackCheck = {
+//	diag_log format["DEBUG: playerBackPack=%1",_this];
+	private["_playerObj","_player_backpackWpn","_player_backpackMag","_playerBackpack",
+	"_server_backpackWpn","_server_backpackMag","_backpackWpnTypes","_backpackWpnQtys","_countr"];
+	_playerObj = _this select 0;
+	_player_backpackWpn = _this select 1;
+	_player_backpackMag = _this select 2;
+	_playerBackpack = unitBackpack _playerObj;
+	_server_backpackWpn = getWeaponCargo _playerBackpack;
+	_server_backpackMag = getMagazineCargo _playerBackpack;
+
+	if ( (str(_server_backpackWpn) != str(_player_backpackWpn) ) || 
+	     (str(_server_backpackMag) != str(_player_backpackMag) ) ) then {
+		diag_log "========================================";
+		diag_log format["DEBUG: %1 backpack miscompare detected!", name _playerObj];
+		diag_log format["DEBUG: playerBackPackWpn:%1",_player_backpackWpn];
+		diag_log format["DEBUG: serverBackPackWpn:%1",_server_backpackWpn];
+		diag_log format["DEBUG: playerBackPackMag:%1",_player_backpackMag];
+		diag_log format["DEBUG: serverBackPackMag:%1",_server_backpackMag];
+		diag_log "========================================";
+		clearWeaponCargoGlobal _playerBackpack;
+		clearMagazineCargoGlobal _playerBackpack;
+		_backpackWpnTypes = [];
+		_backpackWpnQtys = [];
+	//weapons
+		if (count _player_backpackWpn > 0) then {
+			_backpackWpnTypes = _player_backpackWpn select 0;
+			_backpackWpnQtys = _player_backpackWpn select 1;
+		};
+		_countr = 0;
+		{
+			_playerBackpack addWeaponCargoGlobal [_x,(_backpackWpnQtys select _countr)];
+			_countr = _countr + 1;
+		} forEach _backpackWpnTypes;
+	//magazines
+			_backpackmagTypes = [];
+			_backpackmagQtys = [];
+		if (count _player_backpackmag > 0) then {
+			_backpackmagTypes = _player_backpackMag select 0;
+			_backpackmagQtys = _player_backpackMag select 1;
+		};
+		_countr = 0;
+		{
+			_playerBackpack addmagazineCargoGlobal [_x,(_backpackmagQtys select _countr)];
+			_countr = _countr + 1;
+		} forEach _backpackmagTypes;
+	};
+};
+
 //event Handlers (что это за хэндлер такой?)
 eh_localCleanup =			{
 	_object = _this select 0;
