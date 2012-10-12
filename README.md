@@ -28,5 +28,6 @@ also added:
 * autosave when gear
 * autosave when getout from vehicle
 * reconnect penalty (anti ALT+F4)
+* timezone offset
 
 visit forum: http://www.tunngle.net/community/topic/92761-fix-all-in-one-fixes-for-dayz-1726/
