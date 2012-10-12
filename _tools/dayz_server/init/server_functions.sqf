@@ -128,8 +128,8 @@ server_hiveReadWrite = {
 	diag_log format["READ/WRITE: ->[%1]",_key];
 	_data = "HiveEXT" callExtension _key;
 //	diag_log ("READ/WRITE: " + _data);
-	diag_log format["READ/WRITE: <-[%1]",_resultArray];
 	_resultArray = call compile format ["%1;",_data];
+	diag_log format["READ/WRITE: <-[%1]",_resultArray];
 	_resultArray;
 };
 
