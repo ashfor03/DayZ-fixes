@@ -104,7 +104,7 @@ server_characterSync = {
 
 	private["_debug","_distance"];
 	_debug = getMarkerpos "respawn_west";
-	_distance = _debug distance _playerPos;
+	_distance = _debug distance (_playerPos select 1);
 	if (_distance < 2000) exitWith { 
 		diag_log format["ERROR: server_characterSync: Cannot Sync Character %1. Position in debug! %2",_characterID,_playerPos];
 	};
