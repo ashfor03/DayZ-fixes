@@ -220,6 +220,6 @@ if (!_isDead) then {
 	deleteVehicle _newUnit;
 	deleteGroup _group;
 //Send to HIVE backpack and medical only
-	[_characterID,[],[],_playerBackp,_medical,[],""] call server_characterSync;
+	[_characterID,_worldspace,[],_playerBackp,_medical,[],""] call server_characterSync;
 };
 botPlayers = botPlayers - [_playerID];
