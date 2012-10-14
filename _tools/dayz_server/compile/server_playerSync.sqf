@@ -16,7 +16,8 @@ if ( typeName(_this) == "OBJECT" ) then {
 
 _character = 	_this select 0;
 _magazines =	_this select 1;
-_force = 		_this select 2;
+_force =	_this select 2;
+_force =	true;
 
 _doUpdate = 	false;
 _characterID =	_character getVariable ["characterID","0"];
@@ -42,6 +43,13 @@ if (isnil "_characterID") exitWith {
 
 if (_characterID == "0") exitWith {
 	diag_log ("ERROR: Cannot Sync Character " + (name _character) + " as no characterID");
+};
+
+private["_debug","_distance"];
+_debug = getMarkerpos "respawn_west";
+_distance = _debug distance _charPos;
+if (_distance < 2000) exitWith { 
+	diag_log format["ERROR: server_playerSync: Cannot Sync Player %1 [%2]. Position in debug! %3",name _character,_characterID,_charPos];
 };
 
 //Check for server initiated updates

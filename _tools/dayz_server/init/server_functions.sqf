@@ -101,7 +101,13 @@ server_characterSync = {
 	_medical = 	_this select 4;
 	_currentState =	_this select 5;
 	_currentModel = _this select 6;
-	
+
+	private["_debug","_distance"];
+	_debug = getMarkerpos "respawn_west";
+	_distance = _debug distance _playerPos;
+	if (_distance < 2000) exitWith { 
+		diag_log format["ERROR: server_characterSync: Cannot Sync Character %1. Position in debug! %2",_characterID,_playerPos];
+	};
 	_key = format["CHILD:201:%1:%2:%3:%4:%5:%6:%7:%8:%9:%10:%11:%12:%13:%14:%15:%16:",_characterID,_playerPos,_playerGear,_playerBackp,_medical,false,false,0,0,0,0,_currentState,0,0,_currentModel,0];
 	//diag_log ("HIVE: WRITE: "+ str(_key) + " / " + _characterID);
 	_key call server_hiveWrite;
