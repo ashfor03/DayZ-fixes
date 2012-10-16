@@ -21,10 +21,13 @@ if (!isNull _object) then {
 	if (alive _object) then {
 		[_object,[],true] call server_playerSync;
 		_id = [_playerID,_characterID,2] spawn dayz_recordLogin;
-		[_object,_playerID,_characterID] spawn disco_playerMorph;
-//		_myGroup = group _object;
-//		deleteVehicle _object;
-//		deleteGroup _myGroup;
+		if ( penaltyTimeout ) then {
+			[_object,_playerID,_characterID] spawn disco_playerMorph;
+		} else {
+			_myGroup = group _object;
+			deleteVehicle _object;
+			deleteGroup _myGroup;
+		};
 	};
 };
 

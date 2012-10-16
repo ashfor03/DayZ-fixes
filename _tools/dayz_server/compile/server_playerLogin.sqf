@@ -39,10 +39,13 @@ if ((_playerID == "") or (isNil "_playerID")) exitWith {
 	diag_log ("LOGIN FAILED: Player [" + _playerName + "] has no login ID");
 };
 
-while {_playerID in botPlayers} do { sleep 5 };
+if ( penaltyTimeout ) then {
+	while {_playerID in botPlayers} do { sleep 5 };
+	penaltyTimeout = false;
+	(owner _playerObj) publicVariableClient "penaltyTimeout";
+	penaltyTimeout = true;
+};
 endLoadingScreen;
-penaltyTimeout = false;
-(owner _playerObj) publicVariableClient "penaltyTimeout";
 
 diag_log ("LOGIN ATTEMPT: " + str(_playerID) + " " + _playerName);
 
