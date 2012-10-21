@@ -12,6 +12,7 @@ dayzHiveRequest = [];
 initialized = false;
 dayz_previousID = 0;
 tzOffset=0; // in hours
+penaltyTimeout = true;
 
 //Load in compiled functions
 call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\variables.sqf";				//Initilize the Variables (IMPORTANT: Must happen very early)
@@ -60,6 +61,7 @@ player_updateGui 	= compile preprocessFileLineNumbers "fixes\player_updateGui.sq
 player_selectSlot 	= compile preprocessFileLineNumbers "fixes\ui_selectSlot.sqf";
 player_reloadMag 	= compile preprocessFileLineNumbers "fixes\player_reloadMags.sqf";
 player_packTent 	= compile preprocessFileLineNumbers "fixes\player_packTent.sqf";
+fnc_usec_selfActions 	= compile preprocessFileLineNumbers "fixes\fn_selfActions.sqf";
 // count player magazines
 player_countmagazines 	= compile preprocessFileLineNumbers "fixes\player_countmagazines.sqf";
 // original function
@@ -87,7 +89,11 @@ if (!isDedicated) then {
 	//Run the player monitor
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
 	_playerMonitor = 	[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
+<<<<<<< HEAD
 	penaltyTimeout = true;
+=======
+
+>>>>>>> origin/development
 	_doLoop = 0;
 	while { penaltyTimeout } do {
 		call compile format["startLoadingScreen ['Reconnect penalty: %1','RscDisplayLoadMission']",60-_doLoop];
