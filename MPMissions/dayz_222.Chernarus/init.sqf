@@ -26,7 +26,7 @@ progressLoadingScreen 1.0;
 
 "filmic" setToneMappingParams [0.153, 0.357, 0.231, 0.1573, 0.011, 3.750, 6, 4]; setToneMapping "Filmic";
 
-// sleep 0.1;
+sleep 0.1;
 
 if ((!isServer) && (isNull player) ) then
 {
@@ -89,7 +89,7 @@ if (!isDedicated) then {
 	//Run the player monitor
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
 	_playerMonitor = 	[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
-	penaltyTimeout = true;
+
 	_doLoop = 0;
 	while { penaltyTimeout } do {
 		call compile format["startLoadingScreen ['Reconnect penalty: %1','RscDisplayLoadMission']",60-_doLoop];
