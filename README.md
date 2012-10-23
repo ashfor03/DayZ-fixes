@@ -33,4 +33,6 @@ also added:
 * mysqlcppconn.dll with multi db/instance support
 * timezone offset
 
-visit forum: http://www.tunngle.net/community/topic/92761-fix-all-in-one-fixes-for-dayz-1726/
+visit forum: http://opendayz.net/
+terms of use: http://opendayz.net/index.php?pages/TermsofUse/
+
