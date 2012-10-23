@@ -90,7 +90,7 @@ if (!isDedicated) then {
 	_playerMonitor = 	[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
 
 	_doLoop = 0;
-	while { penaltyTimeout } do {
+	while { penaltyTimeout && (_doLoop < 60) } do {
 		call compile format["startLoadingScreen ['Reconnect penalty: %1','RscDisplayLoadMission']",60-_doLoop];
 		_doLoop=_doLoop+1;
 		progressLoadingScreen (_doLoop/60);
