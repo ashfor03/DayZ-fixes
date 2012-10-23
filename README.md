@@ -31,4 +31,6 @@ also added:
 * reconnect penalty (anti ALT+F4)
 * timezone offset
 
-visit forum: http://www.tunngle.net/community/topic/92761-fix-all-in-one-fixes-for-dayz-1726/
+visit forum: http://opendayz.net/
+terms of use: http://opendayz.net/index.php?pages/TermsofUse/
+
