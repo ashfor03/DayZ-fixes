@@ -12,7 +12,7 @@ dayzHiveRequest = [];
 initialized = false;
 dayz_previousID = 0;
 tzOffset=0; // in hours
-penaltyTimeout = true;
+penaltyTimeout = true; // enable reconnect penalty
 
 //Load in compiled functions
 call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\variables.sqf";				//Initilize the Variables (IMPORTANT: Must happen very early)
@@ -41,7 +41,6 @@ if ((!isServer) && (player != player)) then
 };
 
 // reassign functions
-// call compile preprocessFileLineNumbers "fixes\_fixes.sqf";
 // damage eventhanling
 set_obj_dmg 		= compile preprocessFileLineNumbers "fixes\set_obj_dmg.sqf";
 fnc_vehicleEventHandler	= compile preprocessFileLineNumbers "fixes\vehicle_init.sqf";
@@ -62,6 +61,7 @@ player_selectSlot 	= compile preprocessFileLineNumbers "fixes\ui_selectSlot.sqf"
 player_reloadMag 	= compile preprocessFileLineNumbers "fixes\player_reloadMags.sqf";
 player_packTent 	= compile preprocessFileLineNumbers "fixes\player_packTent.sqf";
 fnc_usec_selfActions 	= compile preprocessFileLineNumbers "fixes\fn_selfActions.sqf";
+player_death 		= compile preprocessFileLineNumbers "fixes\player_death.sqf";
 // count player magazines
 player_countmagazines 	= compile preprocessFileLineNumbers "fixes\player_countmagazines.sqf";
 // original function
@@ -76,7 +76,6 @@ player_gearSync_orig 	= compile preprocessFileLineNumbers "\z\addons\dayz_code\c
 
 if (isServer) then {
 	//Run the server monitor
-	//_id = ["Volha_1_TK_CIV_EP1",getMarkerPos "carloc",0] spawn object_spawnDamVehicle;
 	hiveInUse	=	true;
 	_serverMonitor = 	[] execVM "\z\addons\dayz_code\system\server_monitor.sqf";
 };
@@ -99,18 +98,13 @@ if (!isDedicated) then {
 	};
 	endLoadingScreen;
 // 	need wait for creation all vehicles, when first player join.
-	waituntil{_cnt=count allMissionObjects "UH1Wreck_DZ";_cnt==5};
-	_heliCrash = allmissionobjects "UH1Wreck_DZ";
+	waitUntil{!(isNil "objectStreamComplite")};
 	{
-	  dayzFire = [_x,2,0,false,false];
-	  nul=dayzFire spawn BIS_Effects_Burn;
+	  nul = [_x,2,0,false,false] spawn BIS_Effects_Burn;
 //	  diag_log format["DEBUG: %1 [%2]",typeOf _x,mapGridPosition (position _x)];
-	} forEach _heliCrash;
+	} forEach allMissionObjects "UH1Wreck_DZ";
 
-	{
 //	set EH for every player
-	 _x call fnc_vehicleEventHandler;;
-	} forEach vehicles;
+	{ _x call fnc_vehicleEventHandler; } forEach vehicles;
 
 };
-

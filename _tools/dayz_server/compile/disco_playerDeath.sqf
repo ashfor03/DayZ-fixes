@@ -15,7 +15,7 @@ _wait = 	0;
 _object removeAllEventHandlers "HandleDamage";
 
 if (!_isDead) then {
-	_id = [_characterID,0,_object,_playerID,_playerName] spawn server_playerDied;
+	_id = [_characterID,0,_object,_playerID,_playerName,_source,_method] spawn server_playerDied;
 	_object setDamage 1;
 	_object setVariable["USEC_isDead",true,true];
 	_id = _object spawn spawn_flies; // work?
