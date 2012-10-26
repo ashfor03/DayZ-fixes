@@ -13,6 +13,7 @@ initialized = false;
 dayz_previousID = 0;
 tzOffset=0; // in hours
 penaltyTimeout = true; // enable reconnect penalty
+deathMessage = false;
 
 //Load in compiled functions
 call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\variables.sqf";				//Initilize the Variables (IMPORTANT: Must happen very early)

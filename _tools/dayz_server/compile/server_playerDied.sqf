@@ -12,13 +12,13 @@ _source = 	_this select 5;
 _method = 	_this select 6;
 
 private["_distance","_sourceName","_weapon","_deathMessage"];
-if ( isNull _source ) then { 
-	_deathMessage = format["%1 [%2] died. (zombie? suicide? or...)",_playerName,_playerID];
+if ( isNull _source || _source == _newObject ) then { 
+	_deathMessage = format["%1 died. (zombie? suicide? bleed?)",_playerName];
 } else { 
 	_distance = _newObject distance _source;
 	_sourceName = _source getVariable["bodyName","unknown"];
 	_weapon = currentWeapon _source;
-	_deathMessage = format["%1 [%2] died from %3 [Object:%4]. Distance:%5 Weapon:%6 Method:%7",_playerName,_playerID,_sourceName,_source,_distance,_weapon,_method];
+	_deathMessage = format["%1 killed by %2. Distance:%3 Weapon:%4 Method:%5",_playerName,_sourceName,_distance,_weapon,_method];
 	// _weapon may be inaccurate
 	// _method is inaccurate
 	// TODO: ...
@@ -41,3 +41,4 @@ if !(isnil "_characterID") then {
 };
 
 diag_log ("DEBUG: server_playerDied: " + _deathMessage);
+if ( deathMessage ) then { [BIS_MPF_logic, nil,rGLOBALCHAT,_deathMessage] call RE; };
