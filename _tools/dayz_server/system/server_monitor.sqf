@@ -28,7 +28,7 @@ diag_log "HIVE: Starting";
 			_val = _result select 1;
 			//Stream Objects
 			diag_log ("HIVE: Commence Object Streaming...");
-			for "_i" from 1 to _val do {
+			for "_i" from 0 to _val do {
 				_data = "HiveEXT" callExtension _key;
 				_result = call compile format ["%1",_data];
 
