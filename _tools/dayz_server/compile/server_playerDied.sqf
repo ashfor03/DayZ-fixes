@@ -41,4 +41,3 @@ if !(isnil "_characterID") then {
 };
 
 diag_log ("DEBUG: server_playerDied: " + _deathMessage);
-if ( deathMessage ) then { [BIS_MPF_logic, nil,rGLOBALCHAT,_deathMessage] call RE; };

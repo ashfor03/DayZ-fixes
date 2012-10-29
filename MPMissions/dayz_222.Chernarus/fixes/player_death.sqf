@@ -22,6 +22,22 @@ _id = [player,50,true,getPosATL player] spawn player_alertZombies;
 
 sleep 0.5;
 
+private["_distance","_sourceName","_weapon","_deathMessage"];
+if ( deathMessage ) then {
+	if ( isNull _source || _source == _body ) then { 
+		_deathMessage = format["%1 died. (zombie? suicide? bleed?)",dayz_playerName];
+	} else { 
+		_distance = _body distance _source;
+		_sourceName = _source getVariable["bodyName","unknown"];
+		_weapon = currentWeapon _source;
+		_deathMessage = format["%1 killed by %2. Distance:%3 Weapon:%4 Method:%5",dayz_playerName,_sourceName,_distance,_weapon,_method];
+		// _weapon may be inaccurate
+		// _method is inaccurate
+		// TODO: ...
+	};
+BIS_MPF_logic globalChat _deathMessage;
+};
+
 player setDamage 1;
 0.1 fadeSound 0;
 
