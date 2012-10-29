@@ -26,6 +26,7 @@ disco_playerMorph = 		compile preprocessFileLineNumbers "\z\addons\dayz_server\c
 disco_damageHandler =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_damageHandler.sqf";
 disco_playerDeath  =		compile preprocessFileLineNumbers "\z\addons\dayz_server\compile\disco_playerDeath.sqf";
 botPlayers = [];
+needUpdate_objects = [];
 
 //event Handlers (что это за хэндлер такой?)
 eh_localCleanup =			{
