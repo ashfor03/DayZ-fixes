@@ -184,7 +184,13 @@ private ["_newBackpackType","_backpackWpn","_backpackMag"];
 	[objNull, player, rSwitchMove,_currentAnim] call RE;
 	//dayz_originalPlayer attachTo [_newUnit];
 	player disableConversation true;
-	
+
+	if ( isNil "dayz_playerUID" ) then {  // && count _magazines == 0
+		_object = player; // mimic for scripts.txt
+		_object allowDamage false; // try to protect player from damage before EH is set.
+		diag_log "Protect player from damage."
+	};
+
 	player setVariable ["bodyName",dayz_playerName,true];
 	_playerObjName = format["player%1",_playerUID];
 	call compile format["player%1 = player;",_playerUID];
