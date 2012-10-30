@@ -4,4 +4,5 @@ item spawn player_wearClothes;
 */
 private "_item";
 _item = _this;
-if (_item in (magazines player) ) then { _item spawn player_wearClothes_orig };
+_isInVehicle = 	vehicle player != player;
+if ( _item in (magazines player) && !isInVehicle ) then { _item spawn player_wearClothes_orig };
