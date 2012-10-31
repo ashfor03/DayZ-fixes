@@ -90,6 +90,21 @@ if (!isDedicated) then {
 	_id = player addEventHandler ["Respawn", {_id = [] spawn player_death;}];
 	_playerMonitor = 	[] execVM "\z\addons\dayz_code\system\player_monitor.sqf";	
 
+	[] spawn{
+		private["_timeOut"];
+		_timeOut = 0;
+		while { _timeOut < 90 } do {
+			_timeOut = _timeOut + 1;
+			sleep 1;
+		};
+		if ( !dayz_preloadFinished ) exitWith {
+			endLoadingScreen;
+			disableUserInput false;
+			cutText ["Something went wrong! disconnect and try again!", "BLACK OUT",1];
+			player enableSimulation false;
+		};
+	}; 
+
 	_doLoop = 0;
 	while { penaltyTimeout && (_doLoop < 60) } do {
 		call compile format["startLoadingScreen ['Reconnect penalty: %1','RscDisplayLoadMission']",60-_doLoop];
