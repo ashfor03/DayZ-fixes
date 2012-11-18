@@ -90,7 +90,7 @@ BEGIN
 	SELECT COUNT(*) 
 		INTO iVehCount
 		FROM object_data 
-		WHERE 	AND Classname != 'TentStorage'  
+		WHERE 	Classname != 'TentStorage'  
 			AND Classname != 'Hedgehog_DZ'	
 			AND Classname != 'Wire_cat1'		
 			AND Classname != 'Sandbag1_DZ'	
